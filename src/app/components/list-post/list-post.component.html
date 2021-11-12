@@ -1,0 +1,114 @@
+<div>
+  <div class="d-flex flex-row">
+    <button type="button" class="me-3 btn btn-primary ml-auto d-block mb-2" data-bs-toggle="modal"
+      data-bs-target="#addModalForm">
+      Add Post +
+    </button>
+
+    <form class="row g-3 ms-auto">
+      <div class="col-auto">
+        <input type="text" class="form-control ms-auto" placeholder="search data" name="searchTerm"
+          [(ngModel)]="searchTerm" (keyup)="search($any($event.target).value)" />
+      </div>
+    </form>
+
+  </div>
+
+  <table class="table table-bordered border-primary table-responsive">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 10px">User ID</th>
+        <th scope="col" style="width: 10px">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Body</th>
+        <th scope="col" style="width: 10px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let post of posts  | searchFilter: searchTerm; index as i">
+        <td>{{post.userId}}</td>
+        <td>{{post.id}}</td>
+        <td>{{post.title}}</td>
+        <td>{{post.body}}</td>
+        <td>
+          <button type="button" class=" btn btn-primary ml-auto d-block mb-2" data-bs-toggle="modal"
+            data-bs-target="#editModalForm" (click)="editModal(post)">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Add Modal -->
+  <div class="modal fade" id="addModalForm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formValue">
+            <div class="mb-3">
+              <label class="form-label">User ID</label>
+              <input type="number" class="form-control" name="userId" formControlName="userId" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input type="text" class="form-control" name="title" placeholder="title" formControlName="title"
+                required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Body</label>
+              <textarea rows="4" cols="50" class="form-control" name="body" formControlName="body" placeholder="body"
+                required></textarea>
+            </div>
+            <div class="modal-footer d-block">
+              <button (click)="postData()" type="button" class="btn btn-warning float-end">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Row Modal -->
+  <div class="modal fade" id="editModalForm" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" *ngIf="editPostModal">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Row</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="updateFormValue">
+            <div class="mb-3">
+              <label class="form-label">User ID</label>
+              <input [(ngModel)]="editPostModal.userId" type="number" class="form-control" name="userId"
+                formControlName="updateUserId" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input formControlName="updateTitle" [(ngModel)]="editPostModal.title" type="text" class="form-control"
+                name="title" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Body</label>
+              <textarea formControlName="updateBody" [(ngModel)]="editPostModal.body" rows="4" cols="50"
+                class="form-control" name="body" required></textarea>
+            </div>
+            <div class="modal-footer d-block">
+              <button (click)="updatePost()" type="button" data-bs-dismiss="modal"
+                class="btn btn-success float-end">Save Row</button>
+
+              <button (click)="deletePost(editPostModal)" type="button" data-bs-dismiss="modal"
+                class="btn btn-danger float-start">Delete
+                Row</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
