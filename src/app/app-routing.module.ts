@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'add', component: AddPostComponent },
   { path: 'list', component: ListPostComponent },
   { path: 'edit', component: EditPostComponent },
+  { path: '**', component: ListPostComponent }
 ];
 
 @NgModule({

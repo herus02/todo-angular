@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CrudService {
-  private baseURL = 'https://jsonplaceholder.typicode.com/posts?limits=50';
+  private baseURL = 'https://64a46b29c3b509573b5780f1.mockapi.io/todo';
   constructor(private http: HttpClient) {}
 
   postData(data: any) {
@@ -26,7 +26,7 @@ export class CrudService {
   }
 
   updateData(data?: any, id?: number) {
-    return this.http.patch(`${this.baseURL}/${id}`, data).pipe(
+    return this.http.put(`${this.baseURL}/${id}`, data).pipe(
       map((response: any) => {
         return response.json;
       })

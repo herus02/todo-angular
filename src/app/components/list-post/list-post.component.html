@@ -2,7 +2,7 @@
   <div class="d-flex flex-row">
     <button type="button" class="me-3 btn btn-primary ml-auto d-block mb-2" data-bs-toggle="modal"
       data-bs-target="#addModalForm">
-      Add Post +
+      Add Todo +
     </button>
 
     <form class="row g-3 ms-auto">
@@ -17,23 +17,21 @@
   <table class="table table-bordered border-primary table-responsive">
     <thead>
       <tr>
-        <th scope="col" style="width: 10px">User ID</th>
-        <th scope="col" style="width: 10px">ID</th>
-        <th scope="col">Title</th>
-        <th scope="col">Body</th>
-        <th scope="col" style="width: 10px">Action</th>
+        <th scope="col" style="width: 10px">Priority</th>
+        <th scope="col">Due Date</th>
+        <th scope="col">Description</th>
+        <th scope="col" style="width: 50px">Edit</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let post of posts  | searchFilter: searchTerm; index as i">
-        <td>{{post.userId}}</td>
-        <td>{{post.id}}</td>
-        <td>{{post.title}}</td>
-        <td>{{post.body}}</td>
+        <td>{{post.priority}}</td>
+        <td>{{post.dueDate}}</td>
+        <td>{{post.description}}</td>
         <td>
           <button type="button" class=" btn btn-primary ml-auto d-block mb-2" data-bs-toggle="modal"
             data-bs-target="#editModalForm" (click)="editModal(post)">
-            Edit
+            Actions
           </button>
         </td>
       </tr>
@@ -45,27 +43,27 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add New Todo</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form [formGroup]="formValue">
             <div class="mb-3">
-              <label class="form-label">User ID</label>
-              <input type="number" class="form-control" name="userId" formControlName="userId" required />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Title</label>
-              <input type="text" class="form-control" name="title" placeholder="title" formControlName="title"
+              <label class="form-label">Priority</label>
+              <input type="number" class="form-control" name="priority" placeholder="priority" formControlName="priority"
                 required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Body</label>
-              <textarea rows="4" cols="50" class="form-control" name="body" formControlName="body" placeholder="body"
+              <label class="form-label">Due date</label>
+              <input type="text" class="form-control" name="dueDate" formControlName="dueDate" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea rows="4" cols="50" class="form-control" name="description" formControlName="description" placeholder="description"
                 required></textarea>
             </div>
             <div class="modal-footer d-block">
-              <button (click)="postData()" type="button" class="btn btn-warning float-end">Submit</button>
+              <button (click)="postData()" type="button" class="btn btn-warning float-end" data-bs-dismiss="modal">Submit</button>
             </div>
           </form>
         </div>
@@ -78,29 +76,29 @@
     <div class="modal-dialog">
       <div class="modal-content" *ngIf="editPostModal">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Row</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form [formGroup]="updateFormValue">
             <div class="mb-3">
-              <label class="form-label">User ID</label>
-              <input [(ngModel)]="editPostModal.userId" type="number" class="form-control" name="userId"
-                formControlName="updateUserId" required />
+              <label class="form-label">Priority</label>
+              <input formControlName="updatePriority" [(ngModel)]="editPostModal.priority" type="number" class="form-control"
+                name="priority" required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Title</label>
-              <input formControlName="updateTitle" [(ngModel)]="editPostModal.title" type="text" class="form-control"
-                name="title" required />
+              <label class="form-label">Due Date</label>
+              <input [(ngModel)]="editPostModal.dueDate" type="text" class="form-control" name="dueDate"
+                formControlName="updateDueDate" required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Body</label>
-              <textarea formControlName="updateBody" [(ngModel)]="editPostModal.body" rows="4" cols="50"
-                class="form-control" name="body" required></textarea>
+              <label class="form-label">Description</label>
+              <textarea formControlName="updateDescription" [(ngModel)]="editPostModal.description" rows="4" cols="50"
+                class="form-control" name="description" required></textarea>
             </div>
             <div class="modal-footer d-block">
               <button (click)="updatePost()" type="button" data-bs-dismiss="modal"
-                class="btn btn-success float-end">Save Row</button>
+                class="btn btn-success float-end" data-bs-dismiss="modal">Save</button>
 
               <button (click)="deletePost(editPostModal)" type="button" data-bs-dismiss="modal"
                 class="btn btn-danger float-start">Delete

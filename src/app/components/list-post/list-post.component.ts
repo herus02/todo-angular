@@ -20,15 +20,15 @@ export class ListPostComponent implements OnInit {
 
   ngOnInit() {
     this.formValue = this.formBuilder.group({
-      userId: [''],
-      title: [''],
-      body: [''],
+      priority: [''],
+      dueDate: [''],
+      description: [''],
     });
 
     this.updateFormValue = this.formBuilder.group({
-      updateUserId: [''],
-      updateTitle: [''],
-      updateBody: [''],
+      updatePriority: [''],
+      updateDueDate: [''],
+      updateDescription: [''],
     });
 
     this.getAllData();
@@ -38,7 +38,6 @@ export class ListPostComponent implements OnInit {
   getAllData() {
     this.service.getData().subscribe((res) => {
       this.posts = res;
-      console.log(this.posts);
     });
   }
 
@@ -47,10 +46,10 @@ export class ListPostComponent implements OnInit {
     console.log(value);
 
     const postObj = {
-      id: value.userId,
-      userId: value.userId,
-      title: value.title,
-      body: value.body,
+      id: value.id,
+      priority: value.priority,
+      dueDate: value.dueDate,
+      description: value.description,
     };
     console.log(postObj);
 
@@ -65,17 +64,16 @@ export class ListPostComponent implements OnInit {
   }
 
   editModal(editPost: any) {
-    console.log(editPost.id);
     this.editPostModal = editPost;
   }
 
   updatePost() {
     const { value } = this.updateFormValue;
     const postObj = {
-      id: value.updateUserId,
-      userId: value.updateUserId,
-      title: value.updateTitle,
-      body: value.updateBody,
+      id: value.id,
+      dueDate: value.updateDueDate,
+      priority: value.updatePriority,
+      description: value.updateDescription,
     };
 
     this.service
@@ -96,8 +94,9 @@ export class ListPostComponent implements OnInit {
   }
 
   search(post: string): void {
+
     this.posts = this.searchPost.filter((val: any) =>
-      val.title.toLowerCase().includes(post)
+      val.description.toLowerCase().includes(post)
     );
     console.log(post);
   }
